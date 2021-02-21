@@ -1,0 +1,24 @@
+Value of my func 0.75
+c should not be 0
+2021-01-23 16:04:29,486 :: INFO :: my_logger :: Value of my func 0.75
+2021-01-23 16:04:29,487 :: ERROR :: my_logger :: c should not be 0
+2021-01-23 16:04:31,522 :: INFO :: my_logger :: Value of my func 0.75
+2021-01-23 16:04:31,522 :: ERROR :: my_logger :: c should not be 0
+2021-01-23 16:08:13,325 :: INFO :: __main__ :: Value of my func 0.75
+2021-01-23 16:08:13,326 :: ERROR :: __main__ :: c should not be 0
+Traceback (most recent call last):
+  File "/home/angela-markosyan/ACA/23_01_21_afternoon/hmwrk.py", line 22, in my_func
+    value = a * b / c
+ZeroDivisionError: division by zero
+2021-01-23 16:17:15,904 :: INFO :: __main__ :: Value of my func 0.75
+2021-01-23 16:17:15,904 :: ERROR :: __main__ :: c should not be 0
+Traceback (most recent call last):
+  File "/home/angela-markosyan/ACA/23_01_21_afternoon/hmwrk.py", line 22, in my_func
+    value = a * b / c
+ZeroDivisionError: division by zero
+2021-01-23 16:17:28,585 :: INFO :: __main__ :: Value of my func 0.75
+2021-01-23 16:17:28,585 :: ERROR :: __main__ :: c should not be 0
+Traceback (most recent call last):
+  File "/home/angela-markosyan/ACA/23_01_21_afternoon/hmwrk.py", line 22, in my_func
+    value = a * b / c
+ZeroDivisionError: division by zero

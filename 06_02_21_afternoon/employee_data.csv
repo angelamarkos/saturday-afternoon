@@ -1,0 +1,5 @@
+id,full_name,title,seniority,hourly,hours_worked,salary,sales,percent
+1,Ben Johnson,Software Engineer,intern,No,,2000,,
+2,Alice Jackson,DevOps Engineer,junior,Yes,24,40,,
+3,Tim Roth,Sales manager,Senior,No ,,6000,100000,9
+4,Kurt Richards,Sales Representative,Mid,Yes,20,60,10000,3
