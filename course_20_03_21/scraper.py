@@ -1,9 +1,15 @@
 import requests
 from bs4 import BeautifulSoup
 from bs4 import SoupStrainer
+import os
 
+from helpers import send_email_for
+from helpers import Restaurant, DB_NAME
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 ENDPOINT = 'https://buy.am/hy/food-court?p={}'
+current = os.getcwd()
 FILE_NAME = 'buyam_{}.html'
 def save_html_files(endpoint_template):
     page = 1
@@ -34,10 +40,11 @@ def save_html_files_v2(endpoint_template):
         page += 1
 
 # save_html_files_v2(ENDPOINT)
-
+engine = create_engine(f'sqlite:///{current}/helpers/{DB_NAME}')
+session = sessionmaker(bind=engine)()
 def get_parsed_data():
-    dict_data = []
-    for i in range(1, 18):
+    new_name_ids = []
+    for i in range(1, 5):
         file = open(FILE_NAME.format(i), 'r')
         data = file.read()
         file.close()
@@ -46,11 +53,25 @@ def get_parsed_data():
         all_a = div.find_all('a')
         for a in all_a:
             info = a.find('div', attrs={'class': "manufacturer-info"}).stripped_strings
-            dict_data.append({
-                'name': next(info),
-                'open_hours': next(info),
-                'image_url': a.find('span', attrs={'class': "img-logo-media"}).find('img')['src']
-            })
-    return dict_data
+            img = a.find('span', attrs={'class': "img-logo-media"}).find('img')['src']
+            name_id = os.path.basename(img).split('.')[0]
+            existing_restaurant = session.query(Restaurant).filter(Restaurant.name_id==name_id).one_or_none()
+            if not existing_restaurant:
+                new_restaurant = Restaurant(**{
+                    'name': next(info),
+                    'open_hours': next(info),
+                    'image_url': img,
+                    'name_id': name_id
+                })
+                session.add(new_restaurant)
+                new_name_ids.append(name_id)
+            else:
+                existing_restaurant.name = next(info)
+                existing_restaurant.open_hours = next(info)
+                session.add(existing_restaurant)
+            session.commit()
 
-data = get_parsed_data()
+    send_email_for(new_name_ids, session)
+
+get_parsed_data()
+# print(session.query(Restaurant.name, Restaurant.restaurant_id).all())
